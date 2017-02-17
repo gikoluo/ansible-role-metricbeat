@@ -1,0 +1,104 @@
+# {{ ansible_managed }}
+########################## Metricbeat Configuration ###########################
+
+# This file is a full configuration example documenting all non-deprecated
+# options in comments. For a shorter configuration example, that contains only
+# the most common options, please see metricbeat.yml in the same directory.
+#
+# You can find the full configuration reference here:
+# https://www.elastic.co/guide/en/beats/metricbeat/index.html
+
+#==========================  Modules configuration ============================
+metricbeat.modules:
+
+{% if metricbeat_module_system %}
+#------------------------------- System Module -------------------------------
+{{ metricbeat_module_system | to_nice_yaml }}
+{% endif %}
+
+
+{% if metricbeat_module_system %}
+#------------------------------- Apache Module -------------------------------
+{{ metricbeat_module_apache | to_nice_yaml }}
+{% endif %}
+
+{% if metricbeat_module_couchbase %}
+#------------------------------ couchbase Module -----------------------------
+{{ metricbeat_module_couchbase | to_nice_yaml }}
+{% endif %}
+
+
+{% if metricbeat_module_docker %}
+#------------------------------- Docker Module -------------------------------
+{{ metricbeat_module_docker | to_nice_yaml }}
+{% endif %}
+
+{% if metricbeat_module_haproxy %}
+#------------------------------- HAProxy Module ------------------------------
+{{ metricbeat_module_haproxy | to_nice_yaml }}
+{% endif %}
+
+{% if metricbeat_module_kafka %}
+#-------------------------------- kafka Module -------------------------------
+{{ metricbeat_module_kafka | to_nice_yaml }}
+{% endif %}
+
+{% if metricbeat_module_mongodb %}
+#------------------------------- MongoDB Module ------------------------------
+{{ metricbeat_module_mongodb | to_nice_yaml }}
+{% endif %}
+
+
+{% if metricbeat_module_mysql %}
+#-------------------------------- MySQL Module -------------------------------
+{{ metricbeat_module_mysql | to_nice_yaml }}
+{% endif %}
+
+
+{% if metricbeat_module_nginx %}
+#-------------------------------- Nginx Module -------------------------------
+{{ metricbeat_module_nginx | to_nice_yaml }}
+{% endif %}
+
+{% if metricbeat_module_postgresql %}
+#-------------------------------- PostgreSQL Module --------------------------
+{{ metricbeat_module_postgresql | to_nice_yaml }}
+{% endif %}
+
+
+{% if metricbeat_module_prometheus %}
+#----------------------------- Prometheus Module -----------------------------
+{{ metricbeat_module_prometheus | to_nice_yaml }}
+{% endif %}
+
+{% if metricbeat_module_redis %}
+#-------------------------------- Redis Module -------------------------------
+{{ metricbeat_module_redis | to_nice_yaml }}
+{% endif %}
+
+
+{% if metricbeat_module_zookeeper %}
+#------------------------------ ZooKeeper Module -----------------------------
+{{ metricbeat_module_zookeeper | to_nice_yaml }}
+{% endif %}
+
+
+
+#================================ General ======================================
+{{ metricbeat_config_general | to_nice_yaml }}
+
+
+#================================ Processors ===================================
+{{ metricbeat_config_processors | to_nice_yaml }}
+
+#================================ Outputs ======================================
+{{ metricbeat_config_output }}
+
+
+#================================= Paths ======================================
+{{ metricbeat_config_path }}
+
+
+#================================ Logging ======================================
+{{ metricbeat_config_logging }}
+

@@ -1,0 +1,43 @@
+---
+
+- name: "Copy metricbeat tar gz"
+  become: yes
+  copy:
+    src: "{{ metricbeat_download_path }}/{{ filebeat_tarball }}.tar.gz"
+    dest: "/tmp/{{ metricbeat_tarball }}.tar.gz"
+    
+- name: Extract the metricbeat tarball
+  become: yes
+  unarchive:
+    src: "/tmp/{{ metricbeat_tarball }}.tar.gz"
+    dest: "/tmp/"
+    copy: no
+    creates: "/tmp/{{ metricbeat_tarball }}"
+
+- name: Install metricbeat
+  become: yes
+  command: "cp -R /tmp/{{ metricbeat_tarball }} {{ metricbeat_install_dir }}"
+  args:
+    creates: "{{ metricbeat_install_dir }}"
+    removes: "/tmp/{{ metricbeat_tarball }}"
+
+- name: Install metricbeat services
+  become: yes
+  template:
+    src: "supervisor.ini.j2"
+    dest: "{{ supervisord_conf_dir }}/metricbeat.ini"
+    mode: "0644"
+
+
+    
+- name: Install metricbeat Steve Configuration
+  template:
+    src: "steve.ini"
+    dest: "/etc/steve/metricbeat.ini"
+    mode: "0644"
+  become: True
+  tags: ["setup"]
+
+
+
+

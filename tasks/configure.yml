@@ -1,0 +1,56 @@
+---
+
+- name: Make work directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ metricbeat_user }}"
+    group: "{{ metricbeat_group }}"
+    mode: 0755
+  with_items:
+    - "{{ metricbeat_logs_dir }}"
+    - "{{ metricbeat_data_dir }}"
+
+- name: Make configuration directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ metricbeat_config_dir }}"
+
+    
+- name: Copy Metricbeat configuration.
+  template:
+    src: metricbeat.yml.j2
+    dest: "{{ metricbeat_config_dir }}/metricbeat.yml"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart metricbeat
+
+- name: Insert Metricbeat prespector to configuration.
+  lineinfile:
+    dest: "{{ filebeat_config_file }}"
+    line: '- {{ item | to_json }}'
+    insertafter: "^metricbeat.prospectors:$"
+  with_items: "{{ filebeat_prospectors }}"
+  notify: restart metricbeat
+
+
+- name: Ensure Metricbeat SSL key pair directory exists.
+  file:
+    path: "{{ metricbeat_ssl_dir }}"
+    state: directory
+  when: filebeat_ssl_key_file
+
+- name: Copy SSL key and cert for metricbeat.
+  copy:
+    src: "{{ item }}"
+    dest: "{{ filebeat_ssl_dir }}/{{ item | basename }}"
+    mode: 0644
+  with_items:
+    - "{{ metricbeat_ssl_key_file }}"
+    - "{{ metricbeat_ssl_certificate_file }}"
+  notify: restart metricbeat
+  when: metricbeat_ssl_key_file and metricbeat_ssl_certificate_file
