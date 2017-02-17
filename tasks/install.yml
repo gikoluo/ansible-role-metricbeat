@@ -1,39 +1,39 @@
 ---
 
-- name: "Copy metricbeat tar gz"
+- name: "Copy tar gz"
   become: yes
   copy:
-    src: "{{ metricbeat_download_path }}/{{ filebeat_tarball }}.tar.gz"
-    dest: "/tmp/{{ metricbeat_tarball }}.tar.gz"
+    src: "{{ filebeat_download_path }}/{{ filebeat_tarball }}.tar.gz"
+    dest: "/tmp/{{ filebeat_tarball }}.tar.gz"
     
-- name: Extract the metricbeat tarball
+- name: Extract the Filebeat tarball
   become: yes
   unarchive:
-    src: "/tmp/{{ metricbeat_tarball }}.tar.gz"
+    src: "/tmp/{{ filebeat_tarball }}.tar.gz"
     dest: "/tmp/"
     copy: no
-    creates: "/tmp/{{ metricbeat_tarball }}"
+    creates: "/tmp/{{ filebeat_tarball }}"
 
-- name: Install metricbeat
+- name: Install Filebeat
   become: yes
-  command: "cp -R /tmp/{{ metricbeat_tarball }} {{ metricbeat_install_dir }}"
+  command: "cp -R /tmp/{{ filebeat_tarball }} {{ filebeat_install_dir }}"
   args:
-    creates: "{{ metricbeat_install_dir }}"
-    removes: "/tmp/{{ metricbeat_tarball }}"
+    creates: "{{ filebeat_install_dir }}"
+    removes: "/tmp/{{ filebeat_tarball }}"
 
-- name: Install metricbeat services
+- name: Install Filebeat services
   become: yes
   template:
     src: "supervisor.ini.j2"
-    dest: "{{ supervisord_conf_dir }}/metricbeat.ini"
+    dest: "{{ supervisord_conf_dir }}/filebeat.ini"
     mode: "0644"
 
 
     
-- name: Install metricbeat Steve Configuration
+- name: Install Filebeat Steve Configuration
   template:
     src: "steve.ini"
-    dest: "/etc/steve/metricbeat.ini"
+    dest: "/etc/steve/filebeat.ini"
     mode: "0644"
   become: True
   tags: ["setup"]

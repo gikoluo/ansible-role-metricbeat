@@ -68,4 +68,3 @@ MIT / BSD
 ## Author Information
 
 This role was created in 2017 by [Giko Luo](http://www.luochunhui.com/), author of [Jfpal.com](https://www.jfpal.com/).
-# ansible-role-metricbeat

@@ -4,12 +4,12 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ metricbeat_user }}"
-    group: "{{ metricbeat_group }}"
+    owner: "{{ filebeat_user }}"
+    group: "{{ filebeat_group }}"
     mode: 0755
   with_items:
-    - "{{ metricbeat_logs_dir }}"
-    - "{{ metricbeat_data_dir }}"
+    - "{{ filebeat_logs_dir }}"
+    - "{{ filebeat_data_dir }}"
 
 - name: Make configuration directories
   file:
@@ -17,40 +17,40 @@
     state: directory
     mode: 0755
   with_items:
-    - "{{ metricbeat_config_dir }}"
+    - "{{ filebeat_config_dir }}"
 
     
-- name: Copy Metricbeat configuration.
+- name: Copy Filebeat configuration.
   template:
-    src: metricbeat.yml.j2
-    dest: "{{ metricbeat_config_dir }}/metricbeat.yml"
+    src: filebeat.yml.j2
+    dest: "{{ filebeat_config_dir }}/filebeat.yml"
     owner: root
     group: root
     mode: 0644
-  notify: restart metricbeat
+  notify: restart filebeat
 
-- name: Insert Metricbeat prespector to configuration.
+- name: Insert Filebeat prespector to configuration.
   lineinfile:
     dest: "{{ filebeat_config_file }}"
     line: '- {{ item | to_json }}'
-    insertafter: "^metricbeat.prospectors:$"
+    insertafter: "^filebeat.prospectors:$"
   with_items: "{{ filebeat_prospectors }}"
-  notify: restart metricbeat
+  notify: restart filebeat
 
 
-- name: Ensure Metricbeat SSL key pair directory exists.
+- name: Ensure Filebeat SSL key pair directory exists.
   file:
-    path: "{{ metricbeat_ssl_dir }}"
+    path: "{{ filebeat_ssl_dir }}"
     state: directory
   when: filebeat_ssl_key_file
 
-- name: Copy SSL key and cert for metricbeat.
+- name: Copy SSL key and cert for filebeat.
   copy:
     src: "{{ item }}"
     dest: "{{ filebeat_ssl_dir }}/{{ item | basename }}"
     mode: 0644
   with_items:
-    - "{{ metricbeat_ssl_key_file }}"
-    - "{{ metricbeat_ssl_certificate_file }}"
-  notify: restart metricbeat
-  when: metricbeat_ssl_key_file and metricbeat_ssl_certificate_file
+    - "{{ filebeat_ssl_key_file }}"
+    - "{{ filebeat_ssl_certificate_file }}"
+  notify: restart filebeat
+  when: filebeat_ssl_key_file and filebeat_ssl_certificate_file

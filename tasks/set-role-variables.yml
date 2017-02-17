@@ -5,8 +5,8 @@
 
 - name: compose url for downloading file, if necessary
   set_fact:
-    metricbeat_tarball: metricbeat-{{ metricbeat_version }}-linux-x86_64
+    filebeat_tarball: filebeat-{{ filebeat_version }}-linux-x86_64
 - name: compose url for downloading file, if necessary
   set_fact:
-    metricbeat_tarball_url:  "{{ metricbeat_download_base_url }}/{{ metricbeat_tarball }}.tar.gz"
+    filebeat_tarball_url:  "{{ filebeat_download_base_url }}/{{ filebeat_tarball }}.tar.gz"
 

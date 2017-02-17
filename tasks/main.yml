@@ -2,23 +2,29 @@
 
 - include: tasks/set-role-variables.yml
 
-- name: Install Metricbeat
+- name: Install Filebeat
   include: install.yml
   tags:
     - build
 
-- name: Configure Metricbeat
+- name: Configure Filebeat
   include: configure.yml
   tags:
     - configure
 
-- name: Restart Metricbeat
+# - name: Ensure Filebeat is started and enabled at boot.
+#   service:
+#     name: filebeat
+#     state: started
+#     enabled: yes
+
+- name: Restart filebeat
   supervisorctl:
-    name: metricbeat
+    name: filebeat
     state: present
 
-- name: Restart metricbeat
-  shell: "steve -k restart -s metricbeat"
+- name: Restart filebeat
+  shell: "steve -k restart -s filebeat"
   become: True
   tags: ["setup"]
 
@@ -26,6 +32,6 @@
 - name: Remove tmp files
   become: yes
   file:
-    path: "/tmp/{{ metricbeat_tarball }}"
+    path: "/tmp/{{ filebeat_tarball }}"
     state: absent
     
