@@ -1,0 +1,9 @@
+#
+# fetch .tar.gz files
+#
+
+
+- name: "Execure import"
+  shell: "{{ metricbeat_install_dir }}/scripts/import_dashboards -es http://10.100.16.106:9200"
+
+

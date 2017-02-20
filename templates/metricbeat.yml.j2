@@ -1,4 +1,5 @@
 # {{ ansible_managed }}
+# 
 ########################## Metricbeat Configuration ###########################
 
 # This file is a full configuration example documenting all non-deprecated
@@ -13,11 +14,10 @@ metricbeat.modules:
 
 {% if metricbeat_module_system %}
 #------------------------------- System Module -------------------------------
-{{ metricbeat_module_system | to_nice_yaml }}
+{{ metricbeat_module_system }}
 {% endif %}
 
-
-{% if metricbeat_module_system %}
+{% if metricbeat_module_apache %}
 #------------------------------- Apache Module -------------------------------
 {{ metricbeat_module_apache | to_nice_yaml }}
 {% endif %}
@@ -73,7 +73,7 @@ metricbeat.modules:
 
 {% if metricbeat_module_redis %}
 #-------------------------------- Redis Module -------------------------------
-{{ metricbeat_module_redis | to_nice_yaml }}
+{{ metricbeat_module_redis }}
 {% endif %}
 
 
@@ -85,11 +85,11 @@ metricbeat.modules:
 
 
 #================================ General ======================================
-{{ metricbeat_config_general | to_nice_yaml }}
+{{ metricbeat_config_general }}
 
 
 #================================ Processors ===================================
-{{ metricbeat_config_processors | to_nice_yaml }}
+{{ metricbeat_config_processors }}
 
 #================================ Outputs ======================================
 {{ metricbeat_config_output }}

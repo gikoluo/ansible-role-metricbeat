@@ -1,0 +1,12 @@
+[Unit]
+Description=Metricbeat {{ metricbeat_version }}
+Documentation=https://www.elastic.co/guide/en/beats/metricbeat/current/index.html
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart={{ metricbeat_install_dir }}/metricbeat -c {{ metricbeat_config_dir }}/config/metricbeat.yml -path.home {{ metricbeat_install_dir }} -path.config {{ metricbeat_config_dir }} -path.data {{ metricbeat_logs_dir }} -path.logs {{ metricbeat_logs_dir }} 
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

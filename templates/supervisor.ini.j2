@@ -1,11 +1,11 @@
-[program:filebeat]
-command={{ filebeat_install_dir }}/filebeat -c {{ filebeat_config_dir }}/filebeat.yml -path.home {{ filebeat_install_dir }} -path.config {{ filebeat_config_dir }} -path.data {{ filebeat_logs_dir }} -path.logs {{ filebeat_logs_dir }}
+[program:metricbeat]
+command={{ metricbeat_install_dir }}/metricbeat -c {{ metricbeat_config_dir }}/metricbeat.yml -path.home {{ metricbeat_install_dir }} -path.config {{ metricbeat_config_dir }} -path.data {{ metricbeat_logs_dir }} -path.logs {{ metricbeat_logs_dir }}
 process_name=%(program_name)s
 autostart=true
 autorestart=true
-user={{ filebeat_user }}
-stderr_logfile={{ filebeat_logs_dir }}/%(program_name)s.stderr.log
-stdout_logfile={{ filebeat_logs_dir }}/%(program_name)s.stdout.log
+user={{ metricbeat_user }}
+stderr_logfile={{ metricbeat_logs_dir }}/%(program_name)s.stderr.log
+stdout_logfile={{ metricbeat_logs_dir }}/%(program_name)s.stdout.log
 
 
 

@@ -5,7 +5,7 @@
 #   service: name=filebeat state=restarted
 #   when: ansible_service_mgr is defined and ansible_service_mgr == 'systemd'
 
-- name: restart filebeat
-  shell: "steve -k restart -s filebeat"
+- name: restart metricbeat
+  shell: "steve -k restart -s metricbeat"
   become: True
   tags: ["update"]

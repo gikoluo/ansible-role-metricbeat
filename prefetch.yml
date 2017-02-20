@@ -11,7 +11,7 @@
     - name: fetch .tar.gz files from Elastic site
       include: tasks/fetch.yml
       vars:
-        filebeat_download_from_remote: true
+        metricbeat_download_from_remote: true
         
 
 
